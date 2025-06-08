@@ -1,0 +1,30 @@
+services:
+  mongoDb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    image: rks007/minifyurl
+    container_name: minifyurl_backend
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/minifyurl
+      - PORT=4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongoDb
+    restart: always
+
+volumes:
+  mongo_data:        
