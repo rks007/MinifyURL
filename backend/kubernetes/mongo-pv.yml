@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: persistentVolume
+metadata:
+  name: mongo-pv
+  spec:
+    capacity:
+      storage: 3Gi
+    accessModes:
+      - ReadWriteOnce
+    hostPath:
+      path: 
+    persistentVolumeReclaimPolicy: Retain  

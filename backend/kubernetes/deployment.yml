@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-deployment
+  namespace: url
+  labels:
+    app: url
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: url
+  template:
+    metadata:
+      labels:
+        app: url
+    spec:
+      containers:
+        - name: minifyurl
+          image: rks007/minifyurl
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - configMapRef:
+                name: url-config  
